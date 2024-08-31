@@ -11,27 +11,24 @@ namespace discord_rpc
     internal class Program
     {
         private static DiscordRpcClient m_client;
+        private static Timer m_timer;
 
         private static void Main(string[] args)
         {
             Initialize();
 
-            // Keep the console application running
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 
-            // Make sure to clean up resources when exiting
             Deinitialize();
         }
 
         private static void Initialize()
         {
-            m_client = new DiscordRpcClient("1193944736088723476");
+            m_client = new DiscordRpcClient("changeme");
 
-            //Set the logger
             m_client.Logger = new ConsoleLogger() { Level = LogLevel.Warning };
 
-            //Subscribe to events
             m_client.OnReady += (sender, e) =>
             {
                 Console.WriteLine("Ready: {0}", e.User.Username);
@@ -42,24 +39,47 @@ namespace discord_rpc
                 Console.WriteLine("Update: {0}", e.Presence);
             };
 
-            //Connect to the RPC
             m_client.Initialize();
 
-            //Set the rich presence
-            //Call this as many times as you want and anywhere in your code.
+            SetPresence();
+
+            m_timer = new Timer(UpdatePresence, null, TimeSpan.Zero, TimeSpan.FromSeconds(15));
+        }
+
+        private static void SetPresence()
+        {
             m_client.SetPresence(new RichPresence()
             {
-                Details = "PayPal/Cryptocurrecy",
-                State = "Instant Delivery",
+                Details = "changeme",
+                State = "changeme",
                 Assets = new Assets()
                 {
-                    LargeImageKey = "unixx_logo",
-                    SmallImageKey = "https://i.imgur.com/AkbxrKM.gif"
+                    LargeImageKey = "changeme",
+                    SmallImageKey = "changeme"
                 },
                 Buttons = new Button[]
                 {
-                    new Button() { Label = "🛒 Purchase", Url = "https://unixx.shop" },
-                    new Button() { Label = "🌐 Discord", Url = "https://discord.gg/knrJVBR6T9" },
+                    new Button() { Label = "changeme", Url = "changeme" },
+                    new Button() { Label = "changeme", Url = "changeme" },
+                }
+            });
+        }
+
+        private static void UpdatePresence(object state)
+        {
+            m_client.SetPresence(new RichPresence()
+            {
+                Details = "changeme",
+                State = "changeme",
+                Assets = new Assets()
+                {
+                    LargeImageKey = "changeme",
+                    SmallImageKey = "changeme"
+                },
+                Buttons = new Button[]
+                {
+                    new Button() { Label = "changeme", Url = "changeme" },
+                    new Button() { Label = "changeme", Url = "changeme" },
                 }
             });
         }
