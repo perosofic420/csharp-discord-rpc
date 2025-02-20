@@ -24,8 +24,8 @@ namespace discord_rpc
         }
 
         private static void Initialize()
-        {
-            m_client = new DiscordRpcClient("changeme");
+        {   
+            m_client = new DiscordRpcClient("YOUR_APPLICATION_ID");
 
             m_client.Logger = new ConsoleLogger() { Level = LogLevel.Warning };
 
@@ -43,45 +43,53 @@ namespace discord_rpc
 
             SetPresence();
 
-            m_timer = new Timer(UpdatePresence, null, TimeSpan.Zero, TimeSpan.FromSeconds(15));
+            m_timer = new Timer(UpdatePresence, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
         }
 
         private static void SetPresence()
         {
             m_client.SetPresence(new RichPresence()
             {
-                Details = "changeme",
-                State = "changeme",
+                // Describes what the user is currently doing (appears in the main activity section).
+                Details = "Playing A Game",  
+
+                // A secondary description that can give additional context about the user's activity.
+                State = "Level 10 - Boss Fight", 
+
                 Assets = new Assets()
                 {
-                    LargeImageKey = "changeme",
-                    SmallImageKey = "changeme"
+                    // The key of the large image (appears in the larger icon area).
+                    LargeImageKey = "game_icon_large", 
+
+                    // The key of the small image (appears next to the user's status).
+                    SmallImageKey = "game_icon_small",  
+
+                    // Optional: Descriptions for the images (appears when the user hovers over the image).
+                    LargeImageText = "A Game", 
+                    SmallImageText = "Boss Fight"     
                 },
+
+                // Buttons that appear below the activity description. You can provide links to your game, website, etc.
                 Buttons = new Button[]
                 {
-                    new Button() { Label = "changeme", Url = "changeme" },
-                    new Button() { Label = "changeme", Url = "changeme" },
+                    new Button()
+                    {
+                        Label = "Play Game",  // The label text that appears on the button.
+                        Url = "https://example.com/play"  // The URL the button will link to when clicked.
+                    },
+
+                    new Button()
+                    {
+                        Label = "Visit Website",  // Another button, with a different action.
+                        Url = "https://example.com"  // The URL for the second button.
+                    }
                 }
             });
         }
 
         private static void UpdatePresence(object state)
         {
-            m_client.SetPresence(new RichPresence()
-            {
-                Details = "changeme",
-                State = "changeme",
-                Assets = new Assets()
-                {
-                    LargeImageKey = "changeme",
-                    SmallImageKey = "changeme"
-                },
-                Buttons = new Button[]
-                {
-                    new Button() { Label = "changeme", Url = "changeme" },
-                    new Button() { Label = "changeme", Url = "changeme" },
-                }
-            });
+            SetPresence();
         }
 
         private static void Deinitialize()
